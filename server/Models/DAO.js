@@ -10,6 +10,16 @@ exports.checkUser = function (cb) {
     });
 }
 
+exports.imgServe = function (body, cb) {
+    connection.query(`SELECT botProfile FROM users where userid = '${body.userid}';`, function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            cb(results[0].botProfile)
+        }
+    });
+}
+
 //회원가입
 exports.insertMember = function (body,cb) {
     connection.query(`SELECT * FROM users where userid = '${body.userid}';`, function (error, results, fields) {
@@ -19,7 +29,7 @@ exports.insertMember = function (body,cb) {
             if (results == '') {
                 console.log("회원가입 가능");
                 sql = 'INSERT INTO users (userid, username, password, happy, angry, sad, botProfile) VALUES(?, ?, ?, ?, ?, ?, ?)';
-                values = [body.userid, body.username, body.password,0,0,0,'C:\Users\MobileRobotics\Documents\GitHub\Server\server\img\boy.png'];
+                values = [body.userid, body.username, body.password,0,0,0,'http://localhost:3000/img/boy'];
                 connection.query(sql, values, function (error, results, fields) {
                     if (error) {
                         console.log(error);
