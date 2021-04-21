@@ -17,7 +17,10 @@ router.post('/users/sign-up', function (req, res, next) {
   model.insertMember(req.body,(result)=>{
     if(result == "duplicate"){
       res.status(409).json({error: 'duplicate'});
-    }else{
+    }else if(result == "BadRequest"){
+      res.status(400)
+    }
+    else{
       res.status(200)
     }
     

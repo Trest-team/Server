@@ -16,6 +16,7 @@ exports.insertMember = function (body,cb) {
     connection.query(`SELECT * FROM users where userid = '${body.userid}';`, function (error, results, fields) {
         if (error) {
             console.log(error);
+            
         } else {
             if (results == '') {
                 console.log("회원가입 가능");
