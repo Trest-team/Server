@@ -13,5 +13,15 @@ router.get('/users', function (req, res, next) {
   });
 });
 
+router.post('/users/sign-up', function (req, res, next) {
+  model.insertMember(req.body,(result)=>{
+    if(result == "duplicate"){
+      res.status(409).json({error: 'duplicate'});
+    }else{
+      res.status(200)
+    }
+    
+  });
+});
 
 module.exports = router;
