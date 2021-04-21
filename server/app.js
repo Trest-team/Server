@@ -2,7 +2,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+require('dotenv').config()
+console.log(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASS);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
