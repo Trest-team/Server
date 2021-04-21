@@ -16,7 +16,6 @@ exports.insertMember = function (body,cb) {
     connection.query(`SELECT * FROM users where userid = '${body.userid}';`, function (error, results, fields) {
         if (error) {
             console.log(error);
-            
         } else {
             if (results == '') {
                 console.log("회원가입 가능");
@@ -32,6 +31,21 @@ exports.insertMember = function (body,cb) {
             }
             else {
                 cb("duplicate");
+            }
+        }
+    });
+}
+
+//로그인
+exports.login = function (body, cb) {
+    connection.query(`SELECT * FROM user where userid = '${body.userid}' AND password = '${body.password}';`, function (error, results, fields) {
+        if (error) {
+            cb('nonemail')
+        } else {
+            if (results.length == 1) {
+                cb(results[0])
+            } else {
+                cb('nonemail')
             }
         }
     });

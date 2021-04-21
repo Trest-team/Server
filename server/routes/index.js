@@ -27,4 +27,10 @@ router.post('/users/sign-up', function (req, res, next) {
   });
 });
 
+router.post('/users/login', function (req, res, next) {
+  model.login(req.body,(result)=>{
+    res.json(result)
+  });
+});
+
 module.exports = router;
