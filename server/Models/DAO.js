@@ -5,8 +5,7 @@ exports.checkUser = function (cb) {
         if (error) {
             console.log(error);
         } else {
-            console.log(results);
-            cb(results)
+            cb(results[0])
         }
     });
 }
@@ -19,8 +18,8 @@ exports.insertMember = function (body,cb) {
         } else {
             if (results == '') {
                 console.log("회원가입 가능");
-                sql = 'INSERT INTO users (userid, username, password) VALUES(?, ?, ?)';
-                values = [body.userid, body.username, body.password];
+                sql = 'INSERT INTO users (userid, username, password, happy, angry, sad, botProfile) VALUES(?, ?, ?, ?, ?, ?, ?)';
+                values = [body.userid, body.username, body.password,0,0,0,'C:\Users\MobileRobotics\Documents\GitHub\Server\server\img\boy.png'];
                 connection.query(sql, values, function (error, results, fields) {
                     if (error) {
                         console.log(error);
@@ -47,6 +46,16 @@ exports.login = function (body, cb) {
             } else {
                 cb('nonemail')
             }
+        }
+    });
+}
+
+exports.checkUserFeel = function (body, cb) {
+    connection.query(`SELECT happy, angry, sad FROM users where userid = '${body.userid}';`, function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            cb(results[0])
         }
     });
 }
