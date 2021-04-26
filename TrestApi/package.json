@@ -1,5 +1,5 @@
 {
-  "name": "TrestApi",
+  "name": "trestapi",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -14,8 +14,6 @@
     "generator": "^1.0.1",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
-    "ngrok": "^3.4.0",
-    "nodemon": "^2.0.6",
-    "onoff": "^6.0.1"
+    "nodemon": "^2.0.6"
   }
 }
