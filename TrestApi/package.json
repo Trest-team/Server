@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "TrestApi",
   "version": "0.0.0",
   "private": true,
   "scripts": {
