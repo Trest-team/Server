@@ -27,5 +27,4 @@ router.get('/bot', function (req, res, next) {
   });
 
   
-  
 module.exports = router;

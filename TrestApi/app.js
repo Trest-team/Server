@@ -7,7 +7,8 @@ require('dotenv').config()
 console.log(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASS);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var imgRouter = require('./routes/img')
+var imgRouter = require('./routes/img');
+var tokenRouter = require('./routes/token');
 var app = express();
 
 app.use(logger('dev'));
@@ -19,5 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/img',imgRouter);
+app.use('/token',tokenRouter);
 
 module.exports = app;
