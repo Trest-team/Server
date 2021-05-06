@@ -1,6 +1,8 @@
 var express = require('express');
 var model = require('../models/dao');
+const jwt = require('jsonwebtoken');
 var router = express.Router();
+const { verifyToken } = require('./middlewares');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -11,9 +13,24 @@ router.get('/', function(req, res, next) {
 
 router.post('/login', function (req, res, next) {
   model.login(req.body,(result)=>{
-    res.json(result)
+    if(result == "BadRequest"){
+      res.status(400).json({error: 'BadRequest'});
+    }else if(result == '500'||result == 'error'){
+      res.status(500).json({error: 'server error'})
+    }else{
+      res.json({
+        code: 200,
+        message: '토큰이 발급되었습니다.',
+        result,
+      });
+    }
   });
 });
+
+router.post('/token-login', verifyToken, (req, res) => {
+  res.json(req.decoded.id);
+});
+
 
 router.post('/sign-up', function (req, res, next) {
   model.insertMember(req.body,(result)=>{
@@ -30,7 +47,7 @@ router.post('/sign-up', function (req, res, next) {
         const token = jwt.sign({
           id,
         }, process.env.JWT_SECRET, {
-          expiresIn: '1m', // 1분
+          expiresIn: '10m', // 1시간
         });
     
         return res.json({

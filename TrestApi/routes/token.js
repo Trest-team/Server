@@ -43,7 +43,21 @@ router.post('/', async (req, res) => {
 
 // 발급된 토큰을 테스트하는 라우터
 router.get('/test', verifyToken, (req, res) => {
+  console.log(req.decoded.id)
   res.json(req.decoded);
+});
+
+router.get('/:id', verifyToken, async (req, res) => {
+  // 대충 DB에 이런 데이터가 있다고 가정
+  const users = [
+    { id: 1, name: 'Node.js' },
+    { id: 2, name: 'npm' },
+    { id: 3, name: 'Pengsu' },
+  ]
+
+  // 특정 정보를 찾아 제공
+  user = users.find(u => u.id === parseInt(req.params.id))
+  res.send(user);
 });
 
 module.exports = router;
