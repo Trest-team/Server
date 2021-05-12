@@ -67,3 +67,12 @@ exports.login = function (body, cb) {
     });
 }
 
+exports.ProfileUpdate = function (body,tokenId, cb) {
+    connection.query(`UPDATE consultant SET introduce = '${body.introduce}', studentcount = '${body.studentcount}' where id = '${tokenId}';`, function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            cb(results[0].botProfile)
+        }
+    });
+}

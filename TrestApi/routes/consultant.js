@@ -75,4 +75,19 @@ router.get('/feel', function (req, res, next) {
   });
 });
 
+router.post('/profile-update', verifyToken, (req, res) => {
+  model.ProfileUpdate(req.body,req.decoded.id,(result)=>{
+    if(result == '500'||result == 'error'){
+      res.status(500).json({error: 'server error'})
+    }else{
+      res.json({
+        code: 200,
+        message: '프로필 업데이트.',
+        result,
+      });
+    }
+  });
+  res.json(req.decoded.id);
+});
+
 module.exports = router;
