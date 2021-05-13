@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var imgRouter = require('./routes/img');
 var tokenRouter = require('./routes/token');
+var consultantRouter = require('./routes/consultant');
 var app = express();
 
 app.use(logger('dev'));
@@ -21,5 +22,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/img',imgRouter);
 app.use('/token',tokenRouter);
+app.use('/consultant', consultantRouter);
 
 module.exports = app;
