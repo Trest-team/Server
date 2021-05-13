@@ -38,10 +38,12 @@ router.post('/sign-up', function (req, res, next) {
       res.status(409).json({error: 'duplicate'});
     }else if(result == "BadRequest"){
       res.status(400).json({error: 'BadRequest'});
+    }else if(result == 'sql error'){
+      res.status(500).json({error: 'serverError'})
     }
     else{
       try {
-        const id = req.body.userid;
+        const id = req.body.idconsultant;
     
         // jwt.sign() 메소드: 토큰 발급
         const token = jwt.sign({
@@ -69,25 +71,14 @@ router.post('/sign-up', function (req, res, next) {
   });
 });
 
-router.get('/feel', function (req, res, next) {
-  model.checkUserFeel(req.body,(result)=>{
-    res.json(result);
-  });
-});
-
 router.post('/profile-update', verifyToken, (req, res) => {
   model.ProfileUpdate(req.body,req.decoded.id,(result)=>{
     if(result == '500'||result == 'error'){
       res.status(500).json({error: 'server error'})
     }else{
-      res.json({
-        code: 200,
-        message: '프로필 업데이트.',
-        result,
-      });
+      res.status(201).json(result);
     }
   });
-  res.json(req.decoded.id);
 });
 
 module.exports = router;

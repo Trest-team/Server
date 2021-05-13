@@ -13,27 +13,32 @@ exports.checkUser = function (cb) {
 
 //회원가입
 exports.insertMember = function (body,cb) {
-    connection.query(`SELECT * FROM consultant where idconsultant = '${body.idconsultant}';`, function (error, results, fields) {
-        if (error) {
-            console.log(error);
-        } else {
-            if (results == '') {
-                console.log("회원가입 가능");
-                sql = 'INSERT INTO consultant (idconsultant, consultantname, password) VALUES(?, ?, ?)';
-                values = [body.idconsultant, body.consultantname, body.password];
-                connection.query(sql, values, function (error, results, fields) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        cb(results);
-                    }
-                })
+    if(body.idconsultant == undefined || body.consultantname == undefined || body.password == undefined){
+        cb("BadRequest")
+    }else{
+        connection.query(`SELECT * FROM consultant where idconsultant = '${body.idconsultant}';`, function (error, results, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                if (results == '') {
+                    console.log("회원가입 가능");
+                    sql = 'INSERT INTO consultant (idconsultant, consultantname, password) VALUES(?, ?, ?)';
+                    values = [body.idconsultant, body.consultantname, body.password];
+                    connection.query(sql, values, function (error, results, fields) {
+                        if (error) {
+                            console.log(error);
+                            cb('sql error');
+                        } else {
+                            cb(results);
+                        }
+                    })
+                }
+                else {
+                    cb("duplicate");
+                }
             }
-            else {
-                cb("duplicate");
-            }
-        }
-    });
+        });
+    }
 }
 
 //로그인
@@ -67,12 +72,19 @@ exports.login = function (body, cb) {
     });
 }
 
+//프로필 업데이트
 exports.ProfileUpdate = function (body,tokenId, cb) {
-    connection.query(`UPDATE consultant SET introduce = '${body.introduce}', studentcount = '${body.studentcount}' where id = '${tokenId}';`, function (error, results, fields) {
+    connection.query(`UPDATE consultant SET introduce = '${body.introduce}', studentcount = '${body.studentcount}' where idconsultant = '${tokenId}';`, function (error, results, fields) {
         if (error) {
             console.log(error);
         } else {
-            cb(results[0].botProfile)
+            connection.query(`SELECT * FROM consultant where idconsultant = '${tokenId}';`, function (error, result, fields) {
+                if(error){
+                    console.log(error);
+                }else{
+                    cb(result[0])
+                }
+            });
         }
     });
 }
