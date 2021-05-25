@@ -15,7 +15,7 @@ exports.imgServe = function (body, cb) {
         if (error) {
             console.log(error);
         } else {
-            cb(results[0].botProfile)
+            cb(results[0])
         }
     });
 }

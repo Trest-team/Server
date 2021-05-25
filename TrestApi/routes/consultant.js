@@ -42,16 +42,7 @@ router.post('/sign-up', function (req, res, next) {
       res.status(500).json({error: 'serverError'})
     }
     else{
-      try {
-        const id = req.body.idconsultant;
-    
-        // jwt.sign() 메소드: 토큰 발급
-        const token = jwt.sign({
-          id,
-        }, process.env.JWT_SECRET, {
-          expiresIn: '10m', // 1시간
-        });
-    
+      try {    
         return res.json({
           code: 200,
           message: '토큰이 발급되었습니다.',
