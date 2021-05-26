@@ -54,14 +54,14 @@ router.post("/sign-up", function (req, res, next) {
   });
 });
 
-router.get("/feel", function (req, res, next) {
-  model.checkUserFeel(req.body, (result) => {
+router.get("/feel",verifyToken, function (req, res, next) {
+  model.checkUserFeel(req.decoded.id, (result) => {
     res.json(result);
   });
 });
 
-router.get("/bot-profile", function (req, res, next) {
-  model.imgServe(req.body,(result) => {
+router.get("/bot-profile",verifyToken, function (req, res, next) {
+  model.imgServe(req.decoded.id, (result) => {
     res.json(result);
   });
 });

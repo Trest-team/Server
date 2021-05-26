@@ -5,13 +5,13 @@ exports.checkUser = function (cb) {
         if (error) {
             console.log(error);
         } else {
-            cb(results[0])
+            cb(results)
         }
     });
 }
 
-exports.imgServe = function (body, cb) {
-    connection.query(`SELECT botProfile FROM users where userid = '${body.userid}';`, function (error, results, fields) {
+exports.imgServe = function (token, cb) {
+    connection.query(`SELECT botProfile FROM users where userid = '${token}';`, function (error, results, fields) {
         if (error) {
             console.log(error);
         } else {
@@ -76,8 +76,8 @@ exports.login = function (body, cb) {
     });
 }
 
-exports.checkUserFeel = function (body, cb) {
-    connection.query(`SELECT happy, angry, sad FROM users where userid = '${body.userid}';`, function (error, results, fields) {
+exports.checkUserFeel = function (tokenId, cb) {
+    connection.query(`SELECT happy, angry, sad FROM users where userid = '${tokenId}';`, function (error, results, fields) {
         if (error) {
             console.log(error);
         } else {
