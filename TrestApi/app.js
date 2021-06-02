@@ -47,21 +47,46 @@ app.use(function(err, req, res, next) {
 
 
 app.io = require('socket.io')();
-/*** Socket.IO 추가 ***/
-app.io.on('connection', function(socket){
+// /*** Socket.IO 추가 ***/
+// app.io.on('connection', function(socket){
    
-  console.log("a user connected");
-  socket.broadcast.emit('hi');
+//   console.log("a user connected");
+//   socket.broadcast.emit('hi');
    
-  socket.on('disconnect', function(){
-      console.log('user disconnected');
+//   socket.on('disconnect', function(){
+//       console.log('user disconnected');
+//   });
+   
+//   socket.on('chatMessage', function(msg){
+//       console.log('message: ' + msg);
+//       app.io.emit('chatMessage', msg);
+//   }); 
+
+// });
+// Socket Connection
+app.io.sockets.on('connection', function (socket) {
+
+  // room join
+  // 사용자 접속 시 room join 및 접속한 사용자를 room 참여 인원들에게 알립니다.
+  socket.on('join', function (data) {
+
+     // socket join 을 합니다.
+      socket.join(data.roomname);
+
+      socket.set('room', data.roomname);
+
+     // room join 인원들에게 메시지를 보냅니다.
+      socket.get('room', function (error, room) {           
+          io.sockets.in(room).emit('join', data.userid);
+      });       
   });
-   
-  socket.on('chatMessage', function(msg){
-      console.log('message: ' + msg);
-      app.io.emit('chatMessage', msg);
-  }); 
 
+  // message
+  socket.on('message', function (message) {
+      socket.get('room', function (error, room) {
+          io.sockets.in(room).emit('message', message);
+      });         
+  });
+  socket.on('disconnect', function () { });
 });
-
 module.exports = app;
