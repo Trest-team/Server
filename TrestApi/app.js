@@ -51,19 +51,18 @@ app.io = require('socket.io')();
 app.io.on('connection', function(socket){
    
   console.log("a user connected");
-  socket.broadcast.emit('hi');
    
   socket.on('disconnect', function(){
       console.log('user disconnected');
   });
    
-  socket.on('chat', function(data){
-      console.log('message: ' + data);
-      app.io.emit('chat', data);
-      
-  }); 
+  socket.on('send', function(data){
+      var room = data.room;
+      console.log('message: ' + data.msg);
+      socket.join(room);
+      app.io.to(room).emit('reception', data);
+  });
 
-  
 });
 
 module.exports = app;
