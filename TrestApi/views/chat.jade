@@ -43,11 +43,11 @@ html
       document.getElementById('chat').appendChild(li);
       });
       document.getElementById('submit').onclick = function(){
-      var val = document.getElementById('msg').value;
+      var msg = document.getElementById('msg').value;
       var name = document.getElementById('name').value;
-      socket.emit('send', {
+      socket.emit("test", {
       name : name,
-      msg : val,
+      msg : msg,
       room : room
       });
       document.getElementById('msg').value = '';

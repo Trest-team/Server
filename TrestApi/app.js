@@ -56,12 +56,16 @@ app.io.on('connection', function(socket){
       console.log('user disconnected');
   });
    
-  socket.on('send', function(data){
+  socket.on('chat', function(data){
       var room = data.room;
+      console.log(data);
       console.log('message: ' + data.msg);
       socket.join(room);
       app.io.to(room).emit('reception', data);
   });
+  socket.on('test', function(data){
+    console.log(data.message);
+});
 
 });
 
